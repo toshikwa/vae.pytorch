@@ -14,7 +14,7 @@ from models.simple_vae import VAE, FLPLoss, KLDLoss
 parser = argparse.ArgumentParser(description='vae.pytorch')
 parser.add_argument('--logdir', type=str, default="./log/test")
 parser.add_argument('--batch_train', type=int, default=256)
-parser.add_argument('--batch_test', type=int, default=32)
+parser.add_argument('--batch_test', type=int, default=16)
 parser.add_argument('--epochs', type=int, default=5)
 parser.add_argument('--gpu', type=str, default="0")
 parser.add_argument('--initial_lr', type=float, default=0.0005)
