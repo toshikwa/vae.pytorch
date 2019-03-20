@@ -47,9 +47,9 @@ def imsave(x, rec_x, path, row=2, col=2):
 
     # To cpu, numpy, uint8 format and (num, h, w, c) shape
     in_imgs = (x.clone().cpu().detach().numpy()[:row*col]*255)\
-        .astype(np.uint8).transpose(0, 2, 3, 1)
+        .astype(np.uint8).transpose(0, 2, 3, 1)[:, :, :, ::-1]
     out_imgs = (rec_x.clone().cpu().detach().numpy()[:row*col]*255)\
-        .astype(np.uint8).transpose(0, 2, 3, 1)
+        .astype(np.uint8).transpose(0, 2, 3, 1)[:, :, :, ::-1]
 
     # Reshape
     in_imgs = cv2.vconcat([cv2.hconcat([in_imgs[i+j] for j in range(0, col)])

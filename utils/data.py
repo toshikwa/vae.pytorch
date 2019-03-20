@@ -24,7 +24,7 @@ class ImgAugTransform:
   def __call__(self, img):
     img = np.array(img)
     img = self.aug.augment_image(img)
-    return img[:, :, ::-1]
+    return img
 
 class ImageDataset(Dataset):
     def __init__(self, paths, is_aug=True):

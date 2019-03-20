@@ -9,18 +9,19 @@ sys.path.append(".")
 
 from utils.data import get_celeba_loaders
 from utils.vis import plot_loss, imsave, Logger
-from models.simple_vae import VAE, FLPLoss, KLDLoss
+from utils.loss import FLPLoss, KLDLoss
+from models.simple_vae import VAE
 
 parser = argparse.ArgumentParser(description='vae.pytorch')
-parser.add_argument('--logdir', type=str, default="./log/celeba")
+parser.add_argument('--logdir', type=str, default="./log/vae-123")
 parser.add_argument('--batch_train', type=int, default=256)
 parser.add_argument('--batch_test', type=int, default=16)
-parser.add_argument('--epochs', type=int, default=5)
+parser.add_argument('--epochs', type=int, default=10)
 parser.add_argument('--gpu', type=str, default="0")
 parser.add_argument('--initial_lr', type=float, default=0.0005)
 parser.add_argument('--alpha', type=float, default=1.0)
 parser.add_argument('--beta', type=float, default=0.5)
-
+parser.add_argument('--model', type=str, default="vae-123", choices=["vae-123", "vae-345"])
 args = parser.parse_args()
 
 # Set GPU (Single GPU usage is only supported so far)
@@ -33,7 +34,7 @@ dataloaders = get_celeba_loaders(args.batch_train, args.batch_test)
 # Model
 model = VAE(device=device).to(device)
 # Loss
-flp_criterion = FLPLoss(device)
+flp_criterion = FLPLoss(args.model, device)
 kld_criterion = KLDLoss(device)
 # Solver
 optimizer = optim.Adam(model.parameters(), lr=args.initial_lr)
@@ -45,9 +46,13 @@ if not os.path.exists(logdir):
     os.makedirs(logdir)
 # Logger
 logger = Logger(os.path.join(logdir, "log.txt"))
-
 # History
 history = {"train": [], "test": []}
+
+# Save config
+logger.write('----- Options ------')
+for k, v in sorted(vars(args).items()):
+    logger.write('%s: %s' % (str(k), str(v)))
 
 # Start training
 for epoch in range(args.epochs):
