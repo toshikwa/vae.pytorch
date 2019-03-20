@@ -63,4 +63,15 @@ def imsave(x, rec_x, path, row=2, col=2):
 
     # Save
     cv2.imwrite(path, concat_imgs)
-    
+
+class Logger:
+    def __init__(self, path):
+        self.f = open(path, 'w')
+
+    def __del__(self):
+        self.f.close()
+
+    def write(self, text):
+        self.f.write(text+"\n")
+        self.f.flush()
+        print(text)

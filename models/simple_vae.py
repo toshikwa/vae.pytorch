@@ -5,7 +5,6 @@ from torch.autograd import Variable
 import torchvision.models as models
 
 class Encoder(nn.Module):
-
     def __init__(self, nc, nef, nz, isize, device):
         super(Encoder, self).__init__()
 
@@ -57,7 +56,6 @@ class Encoder(nn.Module):
         return latent_z
 
 class Decoder(nn.Module):
-
     def __init__(self, nc, ndf, nz, isize):
         super(Decoder, self).__init__()
 
