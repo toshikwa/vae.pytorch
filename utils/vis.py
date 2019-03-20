@@ -52,8 +52,10 @@ def imsave(x, rec_x, path, row=2, col=2):
         .astype(np.uint8).transpose(0, 2, 3, 1)
 
     # Reshape
-    in_imgs = cv2.vconcat([cv2.hconcat([in_imgs[i], in_imgs[i+1]]) for i in range(0, row*col, row)])
-    out_imgs = cv2.vconcat([cv2.hconcat([out_imgs[i], out_imgs[i+1]]) for i in range(0, row*col, row)])
+    in_imgs = cv2.vconcat([cv2.hconcat([in_imgs[i+j] for j in range(0, col)])
+        for i in range(0, row*col, col)])
+    out_imgs = cv2.vconcat([cv2.hconcat([out_imgs[i+j] for j in range(0, col)])
+        for i in range(0, row*col, col)])
     
     # Concat
     h, _, c = in_imgs.shape
