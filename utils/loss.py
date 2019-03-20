@@ -18,11 +18,17 @@ class _VGG(nn.Module):
 
         # Load pretrained model
         features = models.vgg19(pretrained=True).features
+
         # Rename layers
         self.features = nn.Sequential()
         for i, module in enumerate(features):
             name = layer_names[i]
             self.features.add_module(name, module)
+
+        # Disable autograd
+        for param in self.features.parameters():
+            param.requires_grad = False
+
         # Content layers
         if model == "vae-123":
             self.content_layers = vae123_layers
