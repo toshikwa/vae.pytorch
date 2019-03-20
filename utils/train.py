@@ -23,6 +23,9 @@ parser.add_argument('--beta', type=float, default=0.5)
 
 args = parser.parse_args()
 
+# Set GPU (Single GPU usage is only supported so far)
+os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+
 # Device
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # Dataloader
