@@ -95,7 +95,7 @@ class Decoder(nn.Module):
         return output
 
 class VAE(nn.Module):
-    def __init__(self, nc=3, ndf=32, nef=32, nz=100, isize=64, device=torch.device("cuda:0")):
+    def __init__(self, nc=3, ndf=32, nef=32, nz=100, isize=64, device=torch.device("cuda:0"), is_train=True):
         super(VAE, self).__init__()
 
         self.nz = nz
@@ -104,7 +104,20 @@ class VAE(nn.Module):
         # Decoder
         self.decoder = Decoder(nc=nc, ndf=ndf, nz=nz, isize=isize)
 
+        if is_train == False:
+            for param in self.encoder.parameters():
+                param.requires_grad = False
+            for param in self.decoder.parameters():
+                param.requires_grad = False
+
     def forward(self, x):
         latent_z, mean, logvar = self.encoder(x)
         rec_x = self.decoder(latent_z)
         return rec_x, mean, logvar
+    
+    def encode(self, x):
+        latent_z, _, _ = self.encoder(x)
+        return latent_z
+
+    def decode(self, z):
+        return self.decoder(z)

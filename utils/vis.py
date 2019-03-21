@@ -66,6 +66,25 @@ def imsave(x, rec_x, path, row=2, col=2):
     # Save
     cv2.imwrite(path, concat_imgs)
 
+def imsave_inp(x, path, row=1, col=11):
+    """ Save the interpolated images """
+
+    # Save dir
+    save_dir = os.path.dirname(path)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    # To cpu, numpy, uint8 format and (num, h, w, c) shape
+    in_imgs = (x.clone().cpu().detach().numpy()[:row*col]*255)\
+        .astype(np.uint8).transpose(0, 2, 3, 1)[:, :, :, ::-1]
+
+    # Reshape
+    in_imgs = cv2.vconcat([cv2.hconcat([in_imgs[i+j] for j in range(0, col)])
+        for i in range(0, row*col, col)])
+
+    # Save
+    cv2.imwrite(path, in_imgs)
+
 class Logger:
     def __init__(self, path):
         self.f = open(path, 'w')

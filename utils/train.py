@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser(description='vae.pytorch')
 parser.add_argument('--logdir', type=str, default="./log/vae-123")
 parser.add_argument('--batch_train', type=int, default=64)
 parser.add_argument('--batch_test', type=int, default=16)
-parser.add_argument('--epochs', type=int, default=10)
+parser.add_argument('--epochs', type=int, default=5)
 parser.add_argument('--gpu', type=str, default="0")
 parser.add_argument('--initial_lr', type=float, default=0.0005)
 parser.add_argument('--alpha', type=float, default=1.0)
@@ -118,8 +118,6 @@ for epoch in range(args.epochs):
             running_loss += loss # * x.size(0)
             data_num += x.size(0)
 
-            
-
         # Log
         epoch_loss = running_loss / data_num
         logger.write(f"{phase} Loss : {epoch_loss:.4f}")
@@ -127,3 +125,7 @@ for epoch in range(args.epochs):
 
         if phase == "test":
             plot_loss(logdir, history)
+
+# Save the model
+torch.save(model.state_dict(),\
+    os.path.join(logdir, 'final_model.pth'))

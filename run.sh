@@ -1,4 +1,4 @@
-# choices=['vae-123', 'vae-345', 'pvae']
+# 'vae-123', 'vae-345', 'pvae'
 model="pvae"
 logdir="./log/${model}"
 gpu="0"
