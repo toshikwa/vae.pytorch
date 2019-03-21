@@ -9,7 +9,6 @@ import torch
 import torchvision
 from torchvision import datasets, transforms
 from torch.utils.data import Dataset, DataLoader
-from sklearn.model_selection import train_test_split
 
 class ImgAugTransform:
   def __init__(self):
@@ -62,12 +61,12 @@ class ImageDataset(Dataset):
         return img
 
 def get_celeba_loaders(batch_train, batch_test):
+    test_num = 128
     images = glob.glob(os.path.join(".", "data", "celeba", "*.jpg"))
-    train, test = train_test_split(images, test_size=0.001, random_state=42, shuffle=True)
     
     datasets = {
-        "train": ImageDataset(train, True),
-        "test": ImageDataset(test, False)
+        "train": ImageDataset(images[test_num:], True),
+        "test": ImageDataset(images[:test_num], False)
     }
     dataloaders = {
         "train": DataLoader(datasets["train"], batch_size=batch_train, shuffle=True),

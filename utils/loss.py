@@ -47,24 +47,24 @@ class _VGG(nn.Module):
         return all_outputs
 
 class KLDLoss(nn.Module):
-    def __init__(self, size_average=True):
+    def __init__(self, reduction='sum'):
         super(KLDLoss, self).__init__()
-        self.size_average = size_average
+        self.reduction = reduction
 
     def forward(self, mean, logvar):
         # KLD loss
-        kld_loss = -torch.sum(0.5 * (1 + logvar - mean.pow(2) - logvar.exp()), 1)
+        kld_loss = -0.5 * torch.sum(1 + logvar - mean.pow(2) - logvar.exp(), 1)
         # Size average
-        if self.size_average:
+        if self.reduction == 'mean':
             kld_loss = torch.mean(kld_loss)
-        else:
+        elif self.reduction == 'sum':
             kld_loss = torch.sum(kld_loss)
         return kld_loss
 
 class FLPLoss(nn.Module):
-    def __init__(self, model, device, size_average=True):
+    def __init__(self, model, device, reduction='sum'):
         super(FLPLoss, self).__init__()
-        self.criterion = nn.MSELoss(size_average=size_average)
+        self.criterion = nn.MSELoss(reduction=reduction)
         self.pretrained = _VGG(model).to(device)
     
     def forward(self, x, recon_x):

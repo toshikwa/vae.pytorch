@@ -37,11 +37,11 @@ model = VAE(device=device).to(device)
 
 # Reconstruction loss
 if args.model == "pvae":
-    reconst_criterion = nn.MSELoss()
+    reconst_criterion = nn.MSELoss(reduction='sum')
 elif args.model == "vae-123" or args.model == "vae-345":
-    reconst_criterion = FLPLoss(args.model, device)
+    reconst_criterion = FLPLoss(args.model, device, reduction='sum')
 # KLD loss
-kld_criterion = KLDLoss()
+kld_criterion = KLDLoss(reduction='sum')
 
 # Solver
 optimizer = optim.Adam(model.parameters(), lr=args.initial_lr)
@@ -115,7 +115,7 @@ for epoch in range(args.epochs):
                         imsave(x, rec_x, os.path.join(logdir, f"epoch{epoch+1}", f"test-{i}.png"), 4, 4)
 
             # Add stats
-            running_loss += loss * x.size(0)
+            running_loss += loss # * x.size(0)
             data_num += x.size(0)
 
             
