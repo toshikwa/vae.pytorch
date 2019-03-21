@@ -92,6 +92,10 @@ for epoch in range(args.epochs):
 
                 loss.backward()
                 optimizer.step()
+
+                # Visualize
+                if i == 0 and x.size(0) >= 64:
+                    imsave(x, rec_x, os.path.join(logdir, f"epoch{epoch+1}", f"train.png"), 8, 8)
     
             elif phase == "test":
                 with torch.no_grad():
@@ -106,13 +110,15 @@ for epoch in range(args.epochs):
                     kld_loss = kld_criterion(mean, logvar)
                     loss = args.alpha * kld_loss + args.beta * reconst_loss
 
+                    # Visualize
+                    if x.size(0) >= 16:
+                        imsave(x, rec_x, os.path.join(logdir, f"epoch{epoch+1}", f"test-{i}.png"), 4, 4)
+
             # Add stats
             running_loss += loss * x.size(0)
             data_num += x.size(0)
 
-            # Visualize
-            if i % 100 == 0:
-                imsave(x, rec_x, os.path.join(logdir, f"epoch{epoch+1}", phase, f"batch{i}.png"), 4, 4)
+            
 
         # Log
         epoch_loss = running_loss / data_num

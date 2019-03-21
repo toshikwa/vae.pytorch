@@ -63,7 +63,7 @@ class ImageDataset(Dataset):
 
 def get_celeba_loaders(batch_train, batch_test):
     images = glob.glob(os.path.join(".", "data", "celeba", "*.jpg"))
-    train, test = train_test_split(images, test_size=0.1, random_state=42, shuffle=True)
+    train, test = train_test_split(images, test_size=0.001, random_state=42, shuffle=True)
     
     datasets = {
         "train": ImageDataset(train, True),

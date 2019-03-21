@@ -52,13 +52,13 @@ class KLDLoss(nn.Module):
         self.size_average = size_average
 
     def forward(self, mean, logvar):
-        # Batch size
-        batch_size = mean.size(0)
         # KLD loss
-        kld_loss = torch.sum(0.5 * (1 + logvar - mean.pow(2) - logvar.exp()))
+        kld_loss = -torch.sum(0.5 * (1 + logvar - mean.pow(2) - logvar.exp()), 1)
         # Size average
         if self.size_average:
-            kld_loss /= batch_size
+            kld_loss = torch.mean(kld_loss)
+        else:
+            kld_loss = torch.sum(kld_loss)
         return kld_loss
 
 class FLPLoss(nn.Module):
