@@ -14,10 +14,15 @@ A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. Our
 ├── requirements.txt
 ├── models
 ├── utils
+...
 └── data
     └── celeba
-        ├── 000001.jpg
-        └── ...
+        ├── images
+        │   ├── 000001.jpg
+        │   └── ...
+        └── annotations
+            ├── list_attr_celeba.txt
+            └── ...
 ```
 
 ## Train
@@ -26,6 +31,35 @@ A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. Our
 sh run.sh
 ```
 
+Examples after training 5 epochs.
+
+### pvae
+![pvae](https://github.com/ku2482/vae.pytorch/blob/master/sample/pvae.png)
+
+### vae-123
+![vae-123](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-123.png)
+
+### vae-345
+![vae-345](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-345.png)
+
+## Interpolate
+- Use command below.
+```
+sh interpolate.sh
+```
+
+
+Examples interpolating between non-bald and bald images.
+
+### pvae
+![pvae](https://github.com/ku2482/vae.pytorch/blob/master/sample/pvae-bald.png)
+
+### vae-123
+![vae-123](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-123-bald.png)
+
+### vae-345
+![vae-345](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-345-bald.png)
+
+
 ## ToDo
-- Add interpolation experiments.
 - Add experiments with other datasets(with more large image size).
