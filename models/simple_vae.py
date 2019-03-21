@@ -37,9 +37,9 @@ class Encoder(nn.Module):
 
     def reparametrize(self, mean, logvar):
         std = logvar.mul(0.5).exp_()
-        eps = torch.FloatTensor(std.size()).normal_().to(self.device)
-        eps = Variable(eps)
-        return eps.mul(std).add_(mean)
+        multi_norm = torch.FloatTensor(std.size()).normal_().to(self.device)
+        multi_norm = Variable(multi_norm)
+        return multi_norm.mul(std).add_(mean)
 
     def forward(self, inputs):
         # Batch size
@@ -53,7 +53,7 @@ class Encoder(nn.Module):
         # Sample
         latent_z = self.reparametrize(mean, logvar)
 
-        return latent_z
+        return latent_z, mean, logvar
 
 class Decoder(nn.Module):
     def __init__(self, nc, ndf, nz, isize):
@@ -105,6 +105,6 @@ class VAE(nn.Module):
         self.decoder = Decoder(nc=nc, ndf=ndf, nz=nz, isize=isize)
 
     def forward(self, x):
-        latent_z = self.encoder(x)
+        latent_z, mean, logvar = self.encoder(x)
         rec_x = self.decoder(latent_z)
-        return latent_z, rec_x
+        return rec_x, mean, logvar

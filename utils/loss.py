@@ -47,19 +47,18 @@ class _VGG(nn.Module):
         return all_outputs
 
 class KLDLoss(nn.Module):
-    def __init__(self, device, size_average=True):
+    def __init__(self, size_average=True):
         super(KLDLoss, self).__init__()
-        self.criterion = nn.KLDivLoss(size_average=size_average)
-        self.device = device
+        self.size_average = size_average
 
-    def forward(self, latent_z):
-        # Shape
-        batch_size, nz = latent_z.size()
-        # Desired distribution
-        latent_label = torch.FloatTensor(batch_size, nz).fill_(1).to(self.device)
+    def forward(self, mean, logvar):
+        # Batch size
+        batch_size = mean.size(0)
         # KLD loss
-        kld_loss = self.criterion(F.log_softmax(latent_z), latent_label)
-
+        kld_loss = torch.sum(0.5 * (1 + logvar - mean.pow(2) - logvar.exp()))
+        # Size average
+        if self.size_average:
+            kld_loss /= batch_size
         return kld_loss
 
 class FLPLoss(nn.Module):
