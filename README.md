@@ -23,7 +23,7 @@ A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. Our
 ## Train
 - Use command below.
 ```
-python -u utils/train.py
+sh run.sh
 ```
 
 ## ToDo
