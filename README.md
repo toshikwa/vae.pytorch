@@ -1,5 +1,5 @@
 # Deep Feature Consistent Variational Autoencoder in PyTorch
-A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. Our DFC-VAE is based on [the paper](https://arxiv.org/pdf/1610.00291.pdf) by Xianxu Hou, Linlin Shen, Ke Sun, Guoping Qiu. I trained this model with CelebA dataset. For more details about the dataset, please refer to [the website](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
+A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. I implemented DFC-VAE based on [the paper](https://arxiv.org/pdf/1610.00291.pdf) by Xianxu Hou, Linlin Shen, Ke Sun, Guoping Qiu. I trained this model with CelebA dataset. For more details about the dataset, please refer to [the website](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
 
 ## Installation
 - Clone this repository.
@@ -31,7 +31,7 @@ A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. Our
 sh run.sh
 ```
 
-Examples after training 5 epochs.
+Examples after training 5 epochs.(You can get better images with more training.)
 
 ### pvae
 ![pvae](https://github.com/ku2482/vae.pytorch/blob/master/sample/pvae.png)
