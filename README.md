@@ -31,34 +31,12 @@ A PyTorch implementation of Deep Feature Consistent Variational Autoencoder. I i
 sh run.sh
 ```
 
-Examples after training 5 epochs.(You can get better images with more training.)
-
-### pvae
-![pvae](https://github.com/ku2482/vae.pytorch/blob/master/sample/pvae.png)
-
-### vae-123
-![vae-123](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-123.png)
-
-### vae-345
-![vae-345](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-345.png)
 
 ## Interpolate
 - Use command below.
 ```
 sh interpolate.sh
 ```
-
-
-Examples interpolating between non-bald and bald images.
-
-### pvae
-![pvae](https://github.com/ku2482/vae.pytorch/blob/master/sample/pvae-bald.png)
-
-### vae-123
-![vae-123](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-123-bald.png)
-
-### vae-345
-![vae-345](https://github.com/ku2482/vae.pytorch/blob/master/sample/vae-345-bald.png)
 
 
 ## ToDo
